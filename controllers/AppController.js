@@ -7,8 +7,8 @@ export default class AppController {
     return res.status(200).send(answer);
   }
 
-  static getStats(req, res) {
-    const answer = { users: dbClient.nbUsers(), files: dbClient.nbFiles() };
+  static async getStats(req, res) {
+    const answer = { users: await dbClient.nbUsers(), files: await dbClient.nbFiles() };
     return res.status(200).send(answer);
   }
 }
