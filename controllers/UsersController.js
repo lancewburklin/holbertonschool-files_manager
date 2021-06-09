@@ -14,7 +14,6 @@ export default class UsersController {
     }
     const info = await dbClient.db.collection('users').find({ email }).toArray();
     if (info.length !== 0) {
-      dbClient.db.collection('users').deleteOne({ email });
       return res.status(400).send({ error: 'Already exist' });
     }
     let hasPass = crypto.createHash('sha1');
