@@ -9,6 +9,8 @@ if (process.env.PORT) {
   port = 5000;
 }
 
+app.use(express.json());
+app.use(express.urlencoded());
 app.use('/', router);
 
 app.listen(port);
