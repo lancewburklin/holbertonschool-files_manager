@@ -18,7 +18,7 @@ export default class UsersController {
     }
     let hasPass = crypto.createHash('sha1');
     hasPass = hasPass.update(password, 'utf-8').digest('hex');
-    const newItem = await dbClient.db.collection('users').insertOne({ email, password: hasPass });
-    return res.status(200).send({ id: newItem.ops[0]._id, email });
+    const newItem = await dbClient.db.collection('users').insertOne({ 'email': email, 'password': hasPass });
+    return res.status(201).send({ id: newItem.ops[0]._id, email });
   }
 }
