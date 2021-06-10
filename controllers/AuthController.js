@@ -17,7 +17,7 @@ export default class AuthController {
       return res.status(401).send({ error: 'Unauthorized' });
     }
     const toke = uuidv4();
-    const retToken = { token: toke };
+    const retToken = { "token": toke };
     await redisClient.set(`auth_${toke}`, email, 86400);
     return res.status(200).send(retToken);
   }
@@ -29,6 +29,6 @@ export default class AuthController {
       return res.status(401).send({ error: 'Unauthorized' });
     }
     await redisClient.del(`auth_${toke}`);
-    return res.status(204).send();
+    return res.status(204).end();
   }
 }
