@@ -1,8 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
 
 const crypto = require('crypto');
-import { v4 as uuidv4 } from 'uuid';
 
 export default class AuthController {
   static async getConnect(req, res) {
