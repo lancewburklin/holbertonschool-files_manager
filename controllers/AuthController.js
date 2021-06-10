@@ -7,17 +7,23 @@ const crypto = require('crypto');
 export default class AuthController {
   static async getConnect(req, res) {
     let codeT = req.headers.authorization.split(' ')[1];
+    if (codeT === undefined) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
     const hash = crypto.createHash('sha1');
     codeT = Buffer.from(codeT, 'base64').toString().split(':');
     const email = codeT[0];
     let password = codeT[1];
+    if (email === undefined || password === undefined) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
     password = hash.update(password, 'utf8').digest('hex');
     const person = await dbClient.db.collection('users').find({ email, password }).toArray();
     if (person.length === 0) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
     const toke = uuidv4();
-    const retToken = { "token": toke };
+    const retToken = { token: toke };
     await redisClient.set(`auth_${toke}`, email, 86400);
     return res.status(200).send(retToken);
   }

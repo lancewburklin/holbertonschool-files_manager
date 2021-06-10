@@ -31,6 +31,6 @@ export default class UsersController {
     }
     const user = await dbClient.db.collection('users').find({ email }).toArray();
     const answer = { id: user[0]._id, email: user[0].email };
-    return res.status(200).send(answer);
+    return res.send(answer);
   }
 }
