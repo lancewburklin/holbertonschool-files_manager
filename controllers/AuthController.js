@@ -2,7 +2,7 @@ import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
 
 const crypto = require('crypto');
-const { uuid } = require('uuidv4');
+import { v4 as uuidv4 } from 'uuid';
 
 export default class AuthController {
   static async getConnect(req, res) {
@@ -16,7 +16,7 @@ export default class AuthController {
     if (person.length === 0) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
-    const toke = uuid();
+    const toke = uuidv4();
     const retToken = { token: toke };
     await redisClient.set(toke, email, 86400);
     return res.status(200).send(retToken);
