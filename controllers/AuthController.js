@@ -18,17 +18,17 @@ export default class AuthController {
     }
     const toke = uuidv4();
     const retToken = { token: toke };
-    await redisClient.set(toke, email, 86400);
+    await redisClient.set(`auth_${toke}`, email, 86400);
     return res.status(200).send(retToken);
   }
 
   static async getDisconnect(req, res) {
     const toke = req.headers['x-token'];
-    const exst = await redisClient.get(toke);
+    const exst = await redisClient.get(`auth_${toke}`);
     if (exst === null) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
-    await redisClient.del(toke);
+    await redisClient.del(`auth_${toke}`);
     return res.status(204).send();
   }
 }
